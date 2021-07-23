@@ -9,7 +9,7 @@ const initialValues = { username:'', password:''};
 
      const [login, setLogin] = useState(initialValues)
 
-     const [eror, setEror] = useState('');
+     const [error, setError] = useState('');
 
      const handleChange = e => {
        setLogin ({
@@ -26,7 +26,7 @@ const initialValues = { username:'', password:''};
         .then((res)=> {
 
         localStorage.setItem('token', res.data.payload);
-            push("/protectedbubble");
+            push("/protected");
         })
        .catch((eror)=> console.log(eror));
        };
