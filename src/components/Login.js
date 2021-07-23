@@ -1,51 +1,67 @@
-import React from "react";
-import axios from 'axios';
-import { render } from "@testing-library/react";
+import React, { useState } from 'react';
+import axios from "axios";
+import { useHistory } from 'react-router';
 
-class Login extends React.Component {
-  state = {
-    credentials: {
-      username: '',
-      password: ''
-    }
-  };
+const initialValues = { username:'', password:''};
 
-  handleChange = e => {
-    this.setState({
-      credentials: {
-        ...this.state.credentials,
-        [e.target.name]: e.target.value
-      }
-    })
-  }
+ const Login = () => {
+     const { push } = useHistory();
 
+     const [login, setLogin] = useState(initialValues)
 
-  Login = (e) => {
+     const [eror, setEror] = useState('');
+
+     const handleChange = e => {
+       setLogin ({
+         ...login, [e.target.name]: [e.target.value]
+       })
+     }
+     
+    
+
+  const loginHandler = (e) => {
        e.preventDefault();
-       axios.post(`http://localhost:5000/api/login`, this.state.credentials)
-            .then(res => {
-              localStorage.setItem('token', res.data.token)
-              localStorage.setItem('username', res.data.username)
-              this.props.history.push('/protected');
+        axios
+        .post("http://localhost:5000/api/login",login)
+        .then((res)=> {
 
-            })
-
-            .catch(err=>{
-              console.log(err);
-            })
+        localStorage.setItem('token', res.data.payload);
+            push("/protectedbubble");
+        })
+       .catch((eror)=> console.log(eror));
+       };
   
   // make a post request to retrieve a token from the api
   // when you have handled the token, navigate to the BubblePage route
 
-  const error = "";
+  //const error = "";
   //replace with error state
- render() {}
+
  
   return (
     <div>
       <h1>Welcome to the Bubble App!</h1>
       <div data-testid="loginForm" className="login-form">
         <h2>Build login form here</h2>
+          
+        <form onSubmit={loginHandler}>
+            <label htmlFor="uesrname">Username</label>
+            <input 
+                type="text" 
+                name="username"
+                value={login.username} 
+                onChange={handleChange}
+            />
+            <label htmlFor="password">Password</label>
+            <input 
+                type="password"
+                name="password"
+                //type="password"
+                value={login.password} 
+                onChange={handleChange}
+                />
+                <button>Login</button>
+            </form>
       </div>
 
       <p id="error" className="error">{error}</p>
