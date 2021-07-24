@@ -28,7 +28,7 @@ const BubblePage = () => {
         console.log(err)
       })
     };
-  };
+  
 
   
     const deleteColor = (colorToDelete) => {
@@ -42,13 +42,17 @@ const BubblePage = () => {
     
   };
 
+
+
   return (
     <div className="container">
       <ColorList colors={colors} editing={editing} toggleEdit={toggleEdit} saveEdit={saveEdit} deleteColor={deleteColor}/>
       <Bubbles colors={colors}/>
     </div>
   );
-};
+}
+  
+
 
 export default BubblePage;
 
